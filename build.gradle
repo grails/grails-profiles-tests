@@ -1,0 +1,41 @@
+import org.ajoberstar.grgit.Grgit
+
+plugins {
+  id "org.ajoberstar.grgit" version "3.0.0"
+  id 'base'
+}
+
+ext {
+  profilesSlug = 'grails-profiles'
+  profiles = ['base', 'web']
+}
+
+task cloneProfiles {
+  doLast() {
+    profiles.each { String profile ->
+      def grgit = Grgit.clone(dir: "${buildDir}/${profile}".toString(),
+              uri: "https://github.com/${profilesSlug}/${profile}.git")
+    }
+  }
+}
+
+task publishBaseProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'base'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
+
+task publishWebProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'web'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
+
+build.dependsOn publishBaseProfileToMavenLocal
+build.dependsOn publishWebProfileToMavenLocal
