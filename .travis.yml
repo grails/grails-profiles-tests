@@ -8,7 +8,7 @@ script:
   - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
   - source "/home/travis/.sdkman/bin/sdkman-init.sh"
   - ./gradlew build --console=plain
-  - sdk install grails dev /home/travis/build/grails-core
+  - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
   - sdk use grails dev
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
