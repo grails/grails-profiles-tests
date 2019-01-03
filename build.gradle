@@ -10,6 +10,13 @@ ext {
   profiles = ['base', 'web']
 }
 
+task cloneGrailsCore {
+  doLast() {
+    def grgit = Grgit.clone(dir: "${buildDir}/grails-core".toString(),
+              uri: "https://github.com/grails/grails-core.git")
+  }
+}
+
 task cloneProfiles {
   doLast() {
     profiles.each { String profile ->
@@ -37,5 +44,22 @@ task publishWebProfileToMavenLocal(type: GradleBuild) {
   tasks = ['publishToMavenLocal']
 }
 
-build.dependsOn publishBaseProfileToMavenLocal
-build.dependsOn publishWebProfileToMavenLocal
+task publishGrailsCoreToMavenLocal(type: GradleBuild) {
+  dependsOn cloneGrailsCore
+  buildFile = "${buildDir}/grails-core/build.gradle"
+  tasks = ['install']
+}
+
+task publishReposToMavenLocal {
+  dependsOn publishBaseProfileToMavenLocal
+  dependsOn publishWebProfileToMavenLocal
+  dependsOn publishGrailsCoreToMavenLocal
+}
+
+task cloneRepos {
+  dependsOn cloneGrailsCore
+  dependsOn cloneProfiles
+}
+
+build.dependsOn cloneRepos
+build.dependsOn publishReposToMavenLocal
