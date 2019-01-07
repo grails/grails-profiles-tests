@@ -2,7 +2,6 @@ install: true
 jdk:
   - oraclejdk8
 script:
-  - pwd
   - curl -s get.sdkman.io | bash
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
   - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
@@ -16,7 +15,8 @@ script:
   - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
   - sdk install grails
   - sdk use grails dev
-  - grails create-app demo
+  - grails --version
+  - grails create-app demo --profile=org.grails.profiles:web:4.0.0.BUILD-SNAPSHOT
   - cd demo
   - touch settings.gradle
   - ./grailsw create-controller Book
