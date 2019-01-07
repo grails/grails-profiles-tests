@@ -13,7 +13,7 @@ script:
   - sdk use grails dev
   - grails create-app demo
   - mkdir -p $HOME/.grails/wrapper
-  - cp wrapper/grails-wrapper.jar $HOME/.grails/wrapper/grails-wrapper.jar
+  - cp wrapper/grails4-wrapper.jar $HOME/.grails/wrapper/grails4-wrapper.jar
   - cd demo
   - touch settings.gradle
   - ./grailsw create-controller Book
