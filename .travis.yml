@@ -10,6 +10,10 @@ script:
   - ./gradlew build --console=plain
   - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
   - sdk use grails dev
+  - grails create-app demo
+  - cd demo
+  - touch settings.gradle
+  - ./grailsw create-controller Book
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
