@@ -9,6 +9,7 @@ script:
   - source "/home/travis/.sdkman/bin/sdkman-init.sh"
   - ./gradlew build --console=plain
   - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
+  - sdk install grails
   - sdk use grails dev
   - grails create-app demo
   - cd demo
