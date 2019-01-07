@@ -19,8 +19,38 @@ script:
   - grails create-app demo --profile=org.grails.profiles:web:4.0.0.BUILD-SNAPSHOT
   - cd demo
   - touch settings.gradle
+# ***************** base profiles command **************
+  - ./grailsw assemble
+  - ./grailsw package # synonym of grails assemble
+  - ./grailsw war # synonym of grails assemble
+  - ./grailsw bug-report
+  - ./grailsw clean
+  - ./grailsw compile
+#  - ./grailsw console
+  - ./grailsw create-command awesome
+  - ./grailsw create-domain-class Book
+  - ./grailsw create-script scripto
+  - ./grailsw create-service BookService
+  - ./grailsw create-unit-test Foo
+  - ./grailsw dependency-report
+  - ./grailsw list-plugins
+  - ./grailsw plugin-info geb
+#  - ./grailsw run-app
+#  - ./grailsw run-command
+#  - ./grailsw run-script
+#  - ./grailsw shell
+  - ./grailsw stats
+#  - ./grailsw stop-app
+# ***************** web profiles command **************
   - ./grailsw create-controller Book
-  - ./grailsw bogus-command
+  - ./grailsw create-integration-test Func
+  - ./grailsw create-interceptor Book
+  - ./grailsw create-taglib Currency
+# ***************** base profiles command **************
+  - cd ..
+  - ./gradlew fixTests
+  - cd demo
+  - ./grailsw test-app
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/

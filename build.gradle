@@ -68,6 +68,42 @@ task cloneRepos {
   dependsOn cloneProfiles
 }
 
+task fixTests {
+  ext {
+    appFolder = 'demo'
+    unitTestFolder = 'src/test/groovy/'
+    integrationTestFolder = 'src/integration-test/groovy/'
+    unitTestName = 'Foo'
+    controllerName = 'Book'
+    domainName = 'Book'
+    serviceName = 'Book'
+    taglibName = 'Currency'
+    integrationTest = 'Func'
+  }
+
+  doLast() {
+    for (String spec : ["${controllerName}Controller",
+                        "${controllerName}Interceptor",
+                        "${taglibName}TagLib",
+                        "${serviceName}Service",
+                        "${domainName}",
+                        "${unitTestName}"]) {
+      File f = new File("${appFolder}/${unitTestFolder}/${appFolder}/${spec}Spec.groovy")
+      assert f.exists()
+      String text = f.text
+      text = text.replace("true == false", "true == true")
+      f.text = text
+    }
+    for (String spec : [integrationTest]) {
+      File f = new File("${appFolder}/${integrationTestFolder}/${appFolder}/${spec}Spec.groovy")
+      assert f.exists()
+      String text = f.text
+      text = text.replace("true == false", "true == true")
+      f.text = text
+    }
+  }
+}
+
 build.dependsOn cloneGrailsWrapper
 build.dependsOn cloneRepos
 build.dependsOn publishReposToMavenLocal
