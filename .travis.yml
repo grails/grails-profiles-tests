@@ -12,6 +12,7 @@ script:
   - sdk install grails
   - sdk use grails dev
   - grails create-app demo
+  - cp wrapper/grails-wrapper.jar $HOME/.grails/wrapper/grails-wrapper.jar
   - cd demo
   - touch settings.gradle
   - ./grailsw create-controller Book
