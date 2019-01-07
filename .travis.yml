@@ -8,12 +8,15 @@ script:
   - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
   - source "/home/travis/.sdkman/bin/sdkman-init.sh"
   - ./gradlew build --console=plain
+  - cd build/grails-wrapper/
+  - ./gradlew assemble
+  - cd ../../
+  - mkdir -p $HOME/.grails/wrapper
+  - cp /home/travis/build/grails/grails-profiles-tests/build/grails-wrapper/wrapper/build/libs/grails4-wrapper-1.0.1.BUILD-SNAPSHOT.jar /Users/sdelamo/.grails/wrapper/grails4-wrapper.jar
   - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
   - sdk install grails
   - sdk use grails dev
   - grails create-app demo
-  - mkdir -p $HOME/.grails/wrapper
-  - cp wrapper/grails4-wrapper.jar $HOME/.grails/wrapper/grails4-wrapper.jar
   - cd demo
   - touch settings.gradle
   - ./grailsw create-controller Book

@@ -10,6 +10,13 @@ ext {
   profiles = ['base', 'web']
 }
 
+task cloneGrailsWrapper {
+  doLast() {
+    def grgit = Grgit.clone(dir: "${buildDir}/grails-wrapper".toString(),
+            uri: "https://github.com/grails/grails-wrapper.git")
+  }
+}
+
 task cloneGrailsCore {
   doLast() {
     def grgit = Grgit.clone(dir: "${buildDir}/grails-core".toString(),
@@ -61,5 +68,6 @@ task cloneRepos {
   dependsOn cloneProfiles
 }
 
+build.dependsOn cloneGrailsWrapper
 build.dependsOn cloneRepos
 build.dependsOn publishReposToMavenLocal
