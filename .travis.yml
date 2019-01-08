@@ -91,9 +91,9 @@ script:
   - ./grailsw create-domain-class Employee
   - ./grailsw create-restful-controller Employee
   #- ./grailsw generate-unit-test
-  - ./grailsw create-domain-class Device
-  - ./grailsw generate-controller Device
-  - ./grailsw generate-views Device
+#  - ./grailsw create-domain-class Device
+#  - ./grailsw generate-controller Device
+#  - ./grailsw generate-views Device
   # - ./grailsw generate-functional-test Device # TODO Fails
   # ***************** base profiles command **************
   - cd ..
