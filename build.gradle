@@ -7,7 +7,13 @@ plugins {
 
 ext {
   profilesSlug = 'grails-profiles'
-  profiles = ['base', 'web', 'rest-api']
+  profiles = [
+          'base',
+          'web',
+          'rest-api',
+          'react',
+
+  ]
 }
 
 task cloneGrailsWrapper {
@@ -33,6 +39,14 @@ task cloneProfiles {
   }
 }
 
+task publishReactProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'react'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
 task publishBaseProfileToMavenLocal(type: GradleBuild) {
   dependsOn cloneProfiles
   ext {
@@ -71,6 +85,7 @@ task publishReposToMavenLocal {
   dependsOn publishWebProfileToMavenLocal
   dependsOn publishRestApiProfileToMavenLocal
   dependsOn publishGrailsCoreToMavenLocal
+  dependsOn publishReactProfileToMavenLocal
 }
 
 task cloneRepos {
