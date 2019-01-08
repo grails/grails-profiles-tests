@@ -11,6 +11,7 @@ ext {
           'base',
           'web',
           'rest-api',
+          'web-plugin',
           'react',
 
   ]
@@ -39,6 +40,14 @@ task cloneProfiles {
   }
 }
 
+task publishWebPluginProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'web-plugin'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
 task publishReactProfileToMavenLocal(type: GradleBuild) {
   dependsOn cloneProfiles
   ext {
@@ -85,6 +94,7 @@ task publishReposToMavenLocal {
   dependsOn publishWebProfileToMavenLocal
   dependsOn publishRestApiProfileToMavenLocal
   dependsOn publishGrailsCoreToMavenLocal
+  dependsOn publishWebPluginProfileToMavenLocal
   dependsOn publishReactProfileToMavenLocal
 }
 
