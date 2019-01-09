@@ -3,15 +3,23 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=web-plugin || EXIT_STATUS=$?
+grails create-app demo --profile=rest-api-plugin || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo
+cd demo || EXIT_STATUS=$?
 
-touch settings.gradle
+if [ $EXIT_STATUS -ne 0 ]; then
+  exit $EXIT_STATUS
+fi
+
+touch settings.gradle || EXIT_STATUS=$?
+
+if [ $EXIT_STATUS -ne 0 ]; then
+  exit $EXIT_STATUS
+fi
 
 ./grailsw assemble || EXIT_STATUS=$?
 
@@ -109,13 +117,37 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
+./grailsw create-domain-resource Car || EXIT_STATUS=$?
+
+if [ $EXIT_STATUS -ne 0 ]; then
+  exit $EXIT_STATUS
+fi
+
+./grailsw create-functional-test Func || EXIT_STATUS=$?
+
+if [ $EXIT_STATUS -ne 0 ]; then
+  exit $EXIT_STATUS
+fi
+
+./grailsw create-integration-test Int || EXIT_STATUS=$?
+
+if [ $EXIT_STATUS -ne 0 ]; then
+  exit $EXIT_STATUS
+fi
+
 ./grailsw create-interceptor Company || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-./grailsw create-taglib Currency || EXIT_STATUS=$?
+./grailsw create-domain-class Employee || EXIT_STATUS=$?
+
+if [ $EXIT_STATUS -ne 0 ]; then
+  exit $EXIT_STATUS
+fi
+
+./grailsw create-restful-controller Employee || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
@@ -145,7 +177,7 @@ fi
 
 cd demo
 
-./grailsw test-app || EXIT_STATUS=$?
+./grailsw test-app -unit || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
