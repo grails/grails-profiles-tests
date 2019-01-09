@@ -127,11 +127,7 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd .. || EXIT_STATUS=$? 
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+cd ..
 
 ./gradlew fixTests || EXIT_STATUS=$? 
 
@@ -139,25 +135,9 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo || EXIT_STATUS=$? 
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+cd demo
 
 ./grailsw test-app || EXIT_STATUS=$? 
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-cd .. || EXIT_STATUS=$? 
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-rm -rf demo || EXIT_STATUS=$? 
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS

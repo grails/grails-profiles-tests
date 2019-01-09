@@ -3,7 +3,7 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=web-jboss7 || EXIT_STATUS=$?
+grails create-app demo --profile=plugin || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
@@ -103,25 +103,15 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-./grailsw create-controller Company || EXIT_STATUS=$?
+# Plugin profile
+
+./grailsw package-plugin || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-./grailsw create-integration-test Int || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-./grailsw create-interceptor Company || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-./grailsw create-taglib Currency || EXIT_STATUS=$?
+./grailsw install || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
@@ -131,23 +121,9 @@ cd ..
 
 ./gradlew fixTests || EXIT_STATUS=$?
 
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
 cd demo
 
-./grailsw test-app -unit || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-#./grailsw test-app -integration || EXIT_STATUS=$?
-#
-#if [ $EXIT_STATUS -ne 0 ]; then
-#  exit $EXIT_STATUS
-#fi
+./grailsw test-app || EXIT_STATUS=$?
 
 cd ..
 
