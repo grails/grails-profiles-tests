@@ -8,16 +8,19 @@ plugins {
 ext {
   profilesSlug = 'grails-profiles'
   profiles = [
+          //'angular',
           'base',
-          'web',
-          'webpack',
-          'rest-api',
-          'web-plugin',
           'plugin',
-          'rest-api-plugin',
+          'profile',
           'react',
           'react-webpack',
+          'rest-api',
+          'rest-api-plugin',
           'vue',
+          'web',
+          'web-jboss7',
+          'web-plugin',
+          'webpack',
   ]
 }
 
@@ -42,6 +45,15 @@ task cloneProfiles {
               uri: "https://github.com/${profilesSlug}/${profile}.git")
     }
   }
+}
+
+task publishProfileProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'profile'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
 }
 
 task publishWebPluginProfileToMavenLocal(type: GradleBuild) {
@@ -139,6 +151,7 @@ task publishGrailsCoreToMavenLocal(type: GradleBuild) {
 }
 
 task publishReposToMavenLocal {
+  publishProfileProfileToMavenLocal
   dependsOn publishBaseProfileToMavenLocal
   dependsOn publishWebProfileToMavenLocal
   dependsOn publishWebpackProfileToMavenLocal
