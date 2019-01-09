@@ -10,11 +10,13 @@ ext {
   profiles = [
           'base',
           'web',
+          'webpack',
           'rest-api',
           'web-plugin',
           'plugin',
           'rest-api-plugin',
           'react',
+          'react-webpack',
           'vue',
   ]
 }
@@ -68,6 +70,25 @@ task publishPluginProfileToMavenLocal(type: GradleBuild) {
   buildFile = "${buildDir}/${profileName}/build.gradle"
   tasks = ['publishToMavenLocal']
 }
+
+task publishWebpackProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'webpack'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
+
+task publishReactWebpackProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'react-webpack'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
+
 task publishVueProfileToMavenLocal(type: GradleBuild) {
   dependsOn cloneProfiles
   ext {
@@ -120,12 +141,14 @@ task publishGrailsCoreToMavenLocal(type: GradleBuild) {
 task publishReposToMavenLocal {
   dependsOn publishBaseProfileToMavenLocal
   dependsOn publishWebProfileToMavenLocal
+  dependsOn publishWebpackProfileToMavenLocal
   dependsOn publishRestApiProfileToMavenLocal
   dependsOn publishGrailsCoreToMavenLocal
   dependsOn publishWebPluginProfileToMavenLocal
   dependsOn publishRestApiPluginProfileToMavenLocal
   dependsOn publishPluginProfileToMavenLocal
   dependsOn publishReactProfileToMavenLocal
+  dependsOn publishReactWebpackProfileToMavenLocal
   dependsOn publishVueProfileToMavenLocal
 }
 
