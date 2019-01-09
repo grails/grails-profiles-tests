@@ -127,7 +127,8 @@ task cloneRepos {
 
 task fixTests {
   ext {
-    appFolder = 'demo'
+    appFolders = ['demo', 'demo/server']
+    appPackage = 'demo'
     unitTestFolder = 'src/test/groovy/'
     integrationTestFolder = 'src/integration-test/groovy/'
     unitTestName = 'Foo'
@@ -143,9 +144,13 @@ task fixTests {
 
   doLast() {
     for (String domainClass : domainNames) {
-      File f = new File("${appFolder}/grails-app/domain/${appFolder}/${domainClass}.groovy")
-      if (!f.exists() ) {
-        println "${f.name} does not exists"
+      String path
+      File f = appFolders.collect {
+        path = "${it}/grails-app/domain/${appPackage}/${domainClass}.groovy"
+        new File(path)
+      }.find { it.exists() }
+      if (!f) {
+        println "${path} does not exists"
         continue
       }
       String text = f.text
@@ -163,9 +168,13 @@ task fixTests {
     ).flatten()
 
     ) {
-      File f = new File("${appFolder}/${unitTestFolder}/${appFolder}/${spec}Spec.groovy")
-      if (!f.exists() ) {
-        println "${f.name} does not exists"
+      String path
+      File f = appFolders.collect {
+        path = "${it}/${unitTestFolder}/${appPackage}/${spec}Spec.groovy"
+        new File(path)
+      }.find { it.exists() }
+      if (!f) {
+        println "${path} does not exists"
         continue
       }
       String text = f.text
@@ -176,8 +185,12 @@ task fixTests {
       f.text = text
     }
     for (String spec : ([integrationTest, functionalTest] + serviceNames.collect { "${it}Service" }).flatten()) {
-      File f = new File("${appFolder}/${integrationTestFolder}/${appFolder}/${spec}Spec.groovy")
-      if (!f.exists() ) {
+      String path
+      File f = appFolders.collect {
+        path = "${it}/${integrationTestFolder}/${appPackage}/${spec}Spec.groovy"
+        new File(path) }.find { it.exists() }
+      if (!f) {
+        println "${path} does not exists"
         continue
       }
       String text = f.text
