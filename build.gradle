@@ -15,7 +15,7 @@ ext {
           'plugin',
           'rest-api-plugin',
           'react',
-
+          'vue',
   ]
 }
 
@@ -64,6 +64,14 @@ task publishPluginProfileToMavenLocal(type: GradleBuild) {
   dependsOn cloneProfiles
   ext {
     profileName = 'plugin'
+  }
+  buildFile = "${buildDir}/${profileName}/build.gradle"
+  tasks = ['publishToMavenLocal']
+}
+task publishVueProfileToMavenLocal(type: GradleBuild) {
+  dependsOn cloneProfiles
+  ext {
+    profileName = 'vue'
   }
   buildFile = "${buildDir}/${profileName}/build.gradle"
   tasks = ['publishToMavenLocal']
@@ -118,6 +126,7 @@ task publishReposToMavenLocal {
   dependsOn publishRestApiPluginProfileToMavenLocal
   dependsOn publishPluginProfileToMavenLocal
   dependsOn publishReactProfileToMavenLocal
+  dependsOn publishVueProfileToMavenLocal
 }
 
 task cloneRepos {
