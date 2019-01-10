@@ -1,23 +1,10 @@
 install: true
 jdk:
   - oraclejdk8
-before_script:
-  - curl -s get.sdkman.io | bash
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
-  - source "/home/travis/.sdkman/bin/sdkman-init.sh"
-  - ./gradlew build --console=plain
-  - cd build/grails-wrapper/
-  - ./gradlew assemble
-  - cd ../../
-  - mkdir -p $HOME/.grails/wrapper
-  - cp /home/travis/build/grails/grails-profiles-tests/build/grails-wrapper/wrapper/build/libs/grails4-wrapper-1.0.1.BUILD-SNAPSHOT.jar $HOME/.grails/wrapper/grails4-wrapper.jar
-  - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
-  - sdk install grails
-  - sdk use grails 3.3.3
-  - grails --version
 jobs:
   include:
+    - stage: profiles-install
+        - ./profiles-install.sh
     - stage: vue
       script: ./vue.sh
     - stage: web
