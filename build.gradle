@@ -24,6 +24,13 @@ ext {
   ]
 }
 
+task deleteProfileApps {
+  doLast() {
+    profiles.each { new File(it).deleteDir() }
+  }
+}
+clean.dependsOn(deleteProfileApps)
+
 task cloneGrailsWrapper {
   doLast() {
     def grgit = Grgit.clone(dir: "${buildDir}/grails-wrapper".toString(),
@@ -172,7 +179,20 @@ task cloneRepos {
 
 task fixTests {
   ext {
-    appFolders = ['demo', 'demo/server']
+    appFolders = [
+            //'angular',
+            'plugin',
+            'profile',
+            'react/server',
+            'rest-api',
+            'rest-api-plugin',
+            'vue/server',
+            'web',
+            'web-jboss7',
+            'web-plugin',
+            'webpack',
+            'react-webpack',
+    ]
     appPackage = 'demo'
     unitTestFolder = 'src/test/groovy/'
     integrationTestFolder = 'src/integration-test/groovy/'

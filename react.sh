@@ -3,13 +3,17 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=react || EXIT_STATUS=$?
+cp -r functional-tests react/
 
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+cp runtests.sh react/
 
-cd demo/server
+cd react/
+
+echo ", 'functional-tests'" >> settings.gradle
+
+./runtests.sh
+
+cd server
 
 ./grailsw assemble || EXIT_STATUS=$?
 
@@ -129,12 +133,11 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-
-./grailsw create-functional-test Func || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+#./grailsw create-functional-test Func || EXIT_STATUS=$?
+#
+#if [ $EXIT_STATUS -ne 0 ]; then
+#  exit $EXIT_STATUS
+#fi
 
 ./grailsw create-integration-test Int || EXIT_STATUS=$?
 
@@ -168,7 +171,7 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo/server
+cd react/server
 
 ./grailsw test-app || EXIT_STATUS=$?
 
@@ -178,6 +181,6 @@ fi
 
 cd ../..
 
-rm -rf demo
+rm -rf react
 
 exit $EXIT_STATUS

@@ -3,17 +3,11 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=vue || EXIT_STATUS=$?
+cp -r functional-tests vue/
 
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+cp runtests.sh vue/
 
-cp -r functional-tests demo/
-
-cp runtests.sh demo/
-
-cd demo
+cd vue/
 
 echo ", 'functional-tests'" >> settings.gradle
 
@@ -177,7 +171,7 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo/server
+cd vue/server
 
 ./grailsw test-app || EXIT_STATUS=$?
 
@@ -187,6 +181,6 @@ fi
 
 cd ../..
 
-rm -rf demo
+rm -rf vue/
 
 exit $EXIT_STATUS

@@ -39,4 +39,26 @@ sdk use grails 3.3.3
 
 grails --version
 
+grails create-app demo.web
+
+grails create-app demo.vue --profile=vue
+
+grails create-app demo.web-jboss7 --profile=web-jboss7
+
+grails create-app demo.react --profile=react
+
+grails create-app demo.profile --profile=profile
+
+grails create-app demo.rest-api --profile=rest-api
+
+grails create-app demo.rest-api-plugin --profile=rest-api-plugin
+
+grails create-app demo.web-plugin --profile=web-plugin
+
+grails create-app demo.plugin --profile=plugin
+
+grails create-app demo.webpack --profile=webpack
+
+grails create-app demo.react-webpack --profile=react-webpack
+
 exit $EXIT_STATUS
