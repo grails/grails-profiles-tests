@@ -4,7 +4,7 @@ jdk:
 jobs:
   include:
     - stage: profiles-install
-        - ./profiles-install.sh
+      script: ./profiles-install.sh
     - stage: vue
       script: ./vue.sh
     - stage: web
