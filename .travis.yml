@@ -14,18 +14,28 @@ before_script:
   - cp /home/travis/build/grails/grails-profiles-tests/build/grails-wrapper/wrapper/build/libs/grails4-wrapper-1.0.1.BUILD-SNAPSHOT.jar $HOME/.grails/wrapper/grails4-wrapper.jar
   - sdk install grails dev /home/travis/build/grails/grails-profiles-tests/build/grails-core
   - sdk install grails
-  - sdk use grails 3.3.6
+  - sdk use grails 3.3.3
   - grails --version
-script:
-  - ./web.sh
-  - ./rest-api.sh
-  - ./react.sh
-  - ./vue.sh
-  - ./profile.sh
-  - ./web-jboss7.sh
-  - ./plugin.sh
-  - ./web-plugin.sh
-  - ./rest-api-plugin.sh
+jobs:
+  include:
+    - stage: vue
+      script: ./vue.sh
+    - stage: web
+      script: ./web.sh
+    - stage: rest-api
+      script: ./rest-api.sh
+    - stage: react
+      script: ./react.sh
+    - stage: profile
+      script: ./profile.sh
+    - stage: web-jboss7
+      script: ./web-jboss7.sh
+    - stage: plugin
+      script: ./plugin.sh
+    - stage: web-plugin
+      script: ./web-plugin.sh
+    - stage: rest-api-plugin
+      script: ./rest-api-plugin.sh
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
