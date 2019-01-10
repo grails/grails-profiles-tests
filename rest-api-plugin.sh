@@ -3,23 +3,9 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=rest-api-plugin || EXIT_STATUS=$?
+cd rest-api-plugin
 
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-cd demo || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-touch settings.gradle || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+touch settings.gradle
 
 ./grailsw assemble || EXIT_STATUS=$?
 
@@ -175,7 +161,7 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo
+cd rest-api-plugin
 
 ./grailsw test-app -unit || EXIT_STATUS=$?
 
@@ -185,6 +171,6 @@ fi
 
 cd ..
 
-rm -rf demo
+rm -rf rest-api-plugin
 
 exit $EXIT_STATUS

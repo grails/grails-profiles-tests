@@ -3,13 +3,7 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=web-plugin || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-cd demo
+cd web-plugin
 
 touch settings.gradle
 
@@ -143,7 +137,7 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo
+cd web-plugin
 
 ./grailsw test-app || EXIT_STATUS=$?
 
@@ -153,6 +147,6 @@ fi
 
 cd ..
 
-rm -rf demo
+rm -rf web-plugin
 
 exit $EXIT_STATUS

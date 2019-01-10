@@ -3,13 +3,7 @@ set -e
 
 EXIT_STATUS=0
 
-grails create-app demo --profile=profile || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
-
-cd demo
+cd profile
 
 touch settings.gradle
 
@@ -63,6 +57,6 @@ fi
 
 cd ..
 
-rm -rf demo
+rm -rf profile
 
 exit $EXIT_STATUS

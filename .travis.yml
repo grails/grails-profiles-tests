@@ -1,29 +1,19 @@
-install: true
 jdk:
   - oraclejdk8
-before_script: ./profiles-install.sh
-jobs:
-  include:
-    - stage: test
-      script: ./vue.sh
-    -
-      script: ./react.sh
-#    - stage: web
-#      script: ./web.sh
-#    - stage: rest-api
-#      script: ./rest-api.sh
-#    - stage: react
-#      script: ./react.sh
-#    - stage: profile
-#      script: ./profile.sh
-#    - stage: web-jboss7
-#      script: ./web-jboss7.sh
-#    - stage: plugin
-#      script: ./plugin.sh
-#    - stage: web-plugin
-#      script: ./web-plugin.sh
-#    - stage: rest-api-plugin
-#      script: ./rest-api-plugin.sh
+addons:
+  chrome: stable
+  firefox: latest
+install: ./profiles-install.sh
+script:
+  - ./vue.sh
+  - ./react.sh
+  - ./web.sh
+  - ./rest-api.sh
+#  - ./profile.sh
+#  - ./rest-api-plugin.sh
+#  - ./web-plugin.sh
+#  - ./web-jboss7.sh
+#  - ./plugin.sh
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
