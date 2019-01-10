@@ -1,7 +1,7 @@
 install: true
 jdk:
   - oraclejdk8
-script:
+before_script:
   - curl -s get.sdkman.io | bash
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
   - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
@@ -16,6 +16,7 @@ script:
   - sdk install grails
   - sdk use grails dev
   - grails --version
+script:
   - ./web.sh
   - ./rest-api.sh
   - ./react.sh

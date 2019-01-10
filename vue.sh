@@ -9,7 +9,17 @@ if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
 fi
 
-cd demo/server
+cp -r functional-tests demo/
+
+cp runtests.sh demo/
+
+cd demo
+
+echo ", 'functional-tests'" >> settings.gradle
+
+./runtests.sh
+
+cd server
 
 ./grailsw assemble || EXIT_STATUS=$?
 
@@ -129,11 +139,11 @@ if [ $EXIT_STATUS -ne 0 ]; then
 fi
 
 
-./grailsw create-functional-test Func || EXIT_STATUS=$?
-
-if [ $EXIT_STATUS -ne 0 ]; then
-  exit $EXIT_STATUS
-fi
+#./grailsw create-functional-test Func || EXIT_STATUS=$?
+#
+#if [ $EXIT_STATUS -ne 0 ]; then
+#  exit $EXIT_STATUS
+#fi
 
 ./grailsw create-integration-test Int || EXIT_STATUS=$?
 
